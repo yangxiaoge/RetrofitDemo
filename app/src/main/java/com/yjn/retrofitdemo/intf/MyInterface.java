@@ -4,6 +4,7 @@ import com.yjn.retrofitdemo.bean.CdrBean;
 import com.yjn.retrofitdemo.bean.DepGroup;
 import com.yjn.retrofitdemo.bean.GitHubUserBean;
 import com.yjn.retrofitdemo.bean.LoginData;
+import com.yjn.retrofitdemo.bean.LoginResponse;
 
 import java.util.List;
 import java.util.Map;
@@ -25,9 +26,12 @@ import rx.Observable;
  */
 public interface MyInterface {
 
-   /* @GET("/users/{users}")
+   /*
+    // retrofit2单独使用
+    @GET("/users/{users}")
     Call<GitHubUserBean> repo(@Path("users") String user);*/
 
+    // Rxjava + retrofit2 搭配, 获取github用户信息
     @GET("/users/{users}")
     Observable<GitHubUserBean> repo(@Path("users") String user);
 
@@ -45,10 +49,10 @@ public interface MyInterface {
     Call<List<DepGroup>> depGroup(@QueryMap Map<String, String> options);
 
     /**
-     *
+     * Rxjava + retrofit2 登录
      * @param
      * @return
      */
     @POST("auth/v1/login/subs")
-    Observable<LoginData> login(@Body LoginData loginData);
+    Observable<LoginResponse> login(@Body LoginData loginData);
 }

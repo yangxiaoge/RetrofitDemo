@@ -16,6 +16,7 @@ import com.yjn.retrofitdemo.bean.CdrBean;
 import com.yjn.retrofitdemo.bean.DepGroup;
 import com.yjn.retrofitdemo.bean.GitHubUserBean;
 import com.yjn.retrofitdemo.bean.LoginData;
+import com.yjn.retrofitdemo.bean.LoginResponse;
 import com.yjn.retrofitdemo.core.MainFactory;
 import com.yjn.retrofitdemo.intf.MyInterface;
 
@@ -132,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
+     * rxjava + retrofit
      * 所内登录
      */
     private void login() {
@@ -145,11 +147,19 @@ public class MainActivity extends AppCompatActivity {
         msisdnParams.put("app_version", "1.0");
 
         MyInterface loginIft = MainFactory.getMyinterfaceInstance();
-        Observable<LoginData> loginService = loginIft.login(new LoginData("1UUYBGXJB54=", "1.0", "6.0", "2015082014", "123456789012", "86", "Android"));
+        Observable<LoginResponse> loginService = loginIft.login(new LoginData("1UUYBGXJB54="
+                , "1.0"
+                , "6.0"
+                , "2015082014"
+                , "123456789012"
+                , "86"
+                , "Android")
+        );
 
-        loginService.subscribeOn(Schedulers.io())
+        loginService
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<LoginData>() {
+                .subscribe(new Subscriber<LoginResponse>() {
                     @Override
                     public void onCompleted() {
                         System.out.println("onCompleted-----");
@@ -161,9 +171,10 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onNext(LoginData loginData) {
+                    public void onNext(LoginResponse loginData) {
                         System.out.println("onNext------");
-                        System.out.println(loginData.toString());
+                        System.out.println("登录成功啦-->" + loginData.toString());
+                        Toast.makeText(MainActivity.this, loginData.toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
