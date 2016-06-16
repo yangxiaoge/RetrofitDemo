@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">RetrofitDemo</string>
+    <string name="login">登录</string>
+    <string name="getdepgroup">GetDepGroup</string>
+    <string name="getcdr">GetCdr</string>
+    <string name="next">下一步</string>
+    <string name="hello">你好世界!</string>
+    <string name="loginmsg">登录信息</string>
+    <string name="english">英语</string>
+    <string name="chinese">中文</string>
+    <string name="login_failed">失败啦!</string>
+</resources>
