@@ -1,19 +1,27 @@
 package com.yjn.retrofitdemo.ui;
 
+import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.yjn.retrofitdemo.bean.CdrBean;
-import com.yjn.retrofitdemo.bean.GitHubUserBean;
-import com.yjn.retrofitdemo.constants.BaseUrl;
-import com.yjn.retrofitdemo.intf.MyInterface;
 import com.yjn.retrofitdemo.R;
+import com.yjn.retrofitdemo.bean.CdrBean;
+import com.yjn.retrofitdemo.bean.DepGroup;
+import com.yjn.retrofitdemo.bean.GitHubUserBean;
+import com.yjn.retrofitdemo.bean.LoginData;
+import com.yjn.retrofitdemo.core.MainFactory;
+import com.yjn.retrofitdemo.intf.MyInterface;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import butterknife.Bind;
@@ -21,9 +29,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.GsonConverterFactory;
 import retrofit2.Response;
-import retrofit2.Retrofit;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,16 +45,28 @@ public class MainActivity extends AppCompatActivity {
     TextView cdrText;
     @Bind(R.id.button2)
     Button button2;
+    @Bind(R.id.button3)
+    Button button3;
+    @Bind(R.id.button4)
+    Button button4;
+    @Bind(R.id.button5)
+    Button changeLanguage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+     /*   //应用内配置语言
+        Resources resources = getResources();//获得res资源对象
+        Configuration config = resources.getConfiguration();//获得设置对象
+        DisplayMetrics dm = resources.getDisplayMetrics();//获得屏幕参数：主要是分辨率，像素等。
+        config.locale = Locale.KOREA; //简体中文
+        resources.updateConfiguration(config, dm);*/
     }
 
 
-    @OnClick({R.id.button, R.id.button2})
+    @OnClick({R.id.button, R.id.button2, R.id.button3, R.id.button4, R.id.button5, R.id.button6})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.button:
@@ -52,31 +74,125 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.button2:
                 qryCdr();
+//                queryDepGroup();
                 break;
+            case R.id.button3:
+                login();
+                break;
+            case R.id.button4:
+                queryDepGroup();
+                break;
+            case R.id.button5:
+                Toast.makeText(this, "点我", Toast.LENGTH_SHORT).show();
+                switchLanguage(Locale.US);
+                break;
+            case R.id.button6:
+                switchLanguage(Locale.SIMPLIFIED_CHINESE);
+                break;
+
         }
+    }
+
+    private void switchLanguage(Locale locale) {
+        //应用内配置语言
+        Resources resources = getResources();//获得res资源对象
+        Configuration config = resources.getConfiguration();//获得设置对象
+        DisplayMetrics dm = resources.getDisplayMetrics();//获得屏幕参数：主要是分辨率，像素等。
+        config.locale = locale; //简体中文
+        resources.updateConfiguration(config, dm);
+        Intent refreshIntent = new Intent(this, MainActivity.class);
+        this.finish();
+        startActivity(refreshIntent);
     }
 
     // 获取github用户信息
     private void initData() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BaseUrl.HOST)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        MyInterface myInterfaceService = MainFactory.getGithubInterface();
+        Observable<GitHubUserBean> call = myInterfaceService.repo("yangxiaoge");
+        call.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<GitHubUserBean>() {
+                    @Override
+                    public void onCompleted() {
+                        System.out.println("GitHubUserBean--- onCompleted");
+                    }
 
-        MyInterface myInterfaceService = retrofit.create(MyInterface.class);
-        Call<GitHubUserBean> call = myInterfaceService.repo("yangxiaoge");
+                    @Override
+                    public void onError(Throwable e) {
+                        System.out.println("GitHubUserBean--- onError");
+                    }
 
-        call.enqueue(new Callback<GitHubUserBean>() {
+                    @Override
+                    public void onNext(GitHubUserBean response) {
+                        githubName.setText(response.getLogin());
+                        Toast.makeText(MainActivity.this, response.getLogin(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+    }
+
+    /**
+     * 所内登录
+     */
+    private void login() {
+        Map<String, Object> msisdnParams = new HashMap();
+        msisdnParams.put("prefix", "86");
+        msisdnParams.put("sdn", "2015082014");
+        msisdnParams.put("pwd", "1UUYBGXJB54=");
+        msisdnParams.put("meid", "123456789012");
+        msisdnParams.put("os", "Android");
+        msisdnParams.put("os_version", "6.0");
+        msisdnParams.put("app_version", "1.0");
+
+        MyInterface loginIft = MainFactory.getMyinterfaceInstance();
+        Observable<LoginData> loginService = loginIft.login(new LoginData("1UUYBGXJB54=", "1.0", "6.0", "2015082014", "123456789012", "86", "Android"));
+
+        loginService.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<LoginData>() {
+                    @Override
+                    public void onCompleted() {
+                        System.out.println("onCompleted-----");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        System.out.println("onError------");
+                    }
+
+                    @Override
+                    public void onNext(LoginData loginData) {
+                        System.out.println("onNext------");
+                        System.out.println(loginData.toString());
+                    }
+                });
+    }
+
+    /**
+     * 查询 freebies 组
+     */
+    private void queryDepGroup() {
+
+        MyInterface itf = MainFactory.getMyinterfaceInstance();
+
+        Map<String, String> map = new HashMap();
+        map.put("relaType", "5");
+        map.put("srcOfferId", "985");
+        Call<List<DepGroup>> cdr = itf.depGroup(map);
+        cdr.enqueue(new Callback<List<DepGroup>>() {
             @Override
-            public void onResponse(Call<GitHubUserBean> call, Response<GitHubUserBean> response) {
-                System.out.println(response.body().getLogin() + "-->" + response.message());
-                System.out.println("GitHub结果-->"+response.body().toString());
-                githubName.setText(response.body().getLogin());
-                Toast.makeText(MainActivity.this, response.body().getLogin(), Toast.LENGTH_SHORT).show();
+            public void onResponse(Call<List<DepGroup>> call, Response<List<DepGroup>> response) {
+                Toast.makeText(MainActivity.this, "dep", Toast.LENGTH_SHORT).show();
+//                System.out.println("查询DepGroup结果--->" + new Gson().toJson(response.body()));
+                /*Logger.init();
+                Logger.d("↓↓↓↓↓ response.body()↓↓↓↓↓");
+                Logger.json(new Gson().toJson(response.body()));
+                Logger.d("↓↓↓↓↓ response↓↓↓↓↓");
+                Logger.json(new Gson().toJson(response));*/
             }
 
             @Override
-            public void onFailure(Call<GitHubUserBean> call, Throwable t) {
+            public void onFailure(Call<List<DepGroup>> call, Throwable t) {
                 System.out.println(t.getMessage());
             }
         });
@@ -84,12 +200,7 @@ public class MainActivity extends AppCompatActivity {
 
     // 查询cdr,  内网环境!
     private void qryCdr() {
-        Retrofit re = new Retrofit.Builder()
-                .baseUrl(BaseUrl.CdrHost)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        MyInterface itf = re.create(MyInterface.class);
+        MyInterface itf = MainFactory.getMyinterfaceInstance();
 
         String msisdn = "862015082014";
         Map<String, String> map = new HashMap();
@@ -99,14 +210,15 @@ public class MainActivity extends AppCompatActivity {
         cdr.enqueue(new Callback<CdrBean>() {
             @Override
             public void onResponse(Call<CdrBean> call, Response<CdrBean> response) {
-                System.out.println("查询CDR结果--->"+response.body().toString());
-                cdrText.setText(response.body().getDataTotalVolume());
+                System.out.println("查询CDR结果--->" + response.body());
+                cdrText.setText(response.body().getDataTotalVolume() + "");
             }
 
             @Override
             public void onFailure(Call<CdrBean> call, Throwable t) {
-
+                System.out.println(t.getMessage());
             }
         });
     }
+
 }

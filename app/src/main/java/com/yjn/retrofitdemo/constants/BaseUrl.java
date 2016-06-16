@@ -8,6 +8,6 @@ package com.yjn.retrofitdemo.constants;
  * TaskId:
  */
 public class BaseUrl {
-    public static final String HOST = "https://api.github.com";
-    public static final String CdrHost = "http://10.45.5.224:8080";
+    public static final String GITHUB_URL = "https://api.github.com";
+    public static final String MI_BSER_URL = "http://10.45.5.224:8080/api/services/";
 }
