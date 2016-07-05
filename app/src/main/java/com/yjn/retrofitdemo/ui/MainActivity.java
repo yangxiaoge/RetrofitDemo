@@ -174,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onNext(LoginResponse loginData) {
                         System.out.println("onNext------");
                         System.out.println("登录成功啦-->" + loginData.toString());
-                        Toast.makeText(MainActivity.this, loginData.toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "登录成功啦-->", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
