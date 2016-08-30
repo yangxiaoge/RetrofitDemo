@@ -12,6 +12,7 @@ import com.yjn.retrofitdemo.intf.MyInterface;
 public class MainFactory {
     static MyInterface myInterface;
     static MyInterface mGithubInterface;
+    static MyInterface athenaInterface;
 
     protected static final Object monitor = new Object();
 
@@ -30,6 +31,14 @@ public class MainFactory {
                 mGithubInterface = new MainRetrofit().getGithubService();
             }
             return mGithubInterface;
+        }
+    }
+    public static MyInterface getAthenaInterface() {
+        synchronized (monitor) {
+            if (athenaInterface == null) {
+                athenaInterface = new MainRetrofit().getAthenaService();
+            }
+            return athenaInterface;
         }
     }
 }

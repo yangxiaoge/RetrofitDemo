@@ -1,17 +1,16 @@
 package com.yjn.retrofitdemo.ui;
 
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.orhanobut.logger.Logger;
 import com.yjn.retrofitdemo.R;
+import com.yjn.retrofitdemo.advance_retrofit.AdvanceRFActivity;
 import com.yjn.retrofitdemo.bean.CdrBean;
 import com.yjn.retrofitdemo.bean.DepGroup;
 import com.yjn.retrofitdemo.bean.GitHubUserBean;
@@ -36,7 +35,7 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     @Bind(R.id.github_name)
     TextView githubName;
@@ -64,10 +63,10 @@ public class MainActivity extends AppCompatActivity {
         DisplayMetrics dm = resources.getDisplayMetrics();//获得屏幕参数：主要是分辨率，像素等。
         config.locale = Locale.KOREA; //简体中文
         resources.updateConfiguration(config, dm);*/
+
     }
 
-
-    @OnClick({R.id.button, R.id.button2, R.id.button3, R.id.button4, R.id.button5, R.id.button6})
+    @OnClick({R.id.button, R.id.button2, R.id.button3, R.id.button4, R.id.button5, R.id.button6, R.id.advance_retrofit, R.id.athena})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.button:
@@ -86,25 +85,60 @@ public class MainActivity extends AppCompatActivity {
             case R.id.button5:
                 Toast.makeText(this, "点我", Toast.LENGTH_SHORT).show();
                 switchLanguage(Locale.US);
+                startActivity(new Intent(this, MainActivity.class));
+                this.finish();
                 break;
             case R.id.button6:
                 switchLanguage(Locale.SIMPLIFIED_CHINESE);
+                startActivity(new Intent(this, MainActivity.class));
+                this.finish();
+                break;
+            case R.id.advance_retrofit:
+                startActivity(new Intent(this, AdvanceRFActivity.class));
+                break;
+            case R.id.athena:
+                athenaLogin();
                 break;
 
         }
     }
 
-    private void switchLanguage(Locale locale) {
-        //应用内配置语言
-        Resources resources = getResources();//获得res资源对象
-        Configuration config = resources.getConfiguration();//获得设置对象
-        DisplayMetrics dm = resources.getDisplayMetrics();//获得屏幕参数：主要是分辨率，像素等。
-        config.locale = locale; //简体中文
-        resources.updateConfiguration(config, dm);
-        Intent refreshIntent = new Intent(this, MainActivity.class);
-        this.finish();
-        startActivity(refreshIntent);
+    private void athenaLogin() {
+        MyInterface athenaService = MainFactory.getAthenaInterface();
+        Map<String, String> params = new HashMap<>();
+        params.put("prefix", "95");
+        params.put("sdn", "2016042007");
+        params.put("pwd", "QFfpQMMfO6o=");
+        params.put("meid", "864895021268485");
+        params.put("os", "Android");
+        params.put("os_version", "4.2.2");
+        params.put("app_version", "1101");
+        Observable<LoginResponse> athena = athenaService.athenaLogin(params);
+        athena.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<LoginResponse>() {
+                    @Override
+                    public void onCompleted() {
+                        System.out.println("LoginResponse--- onCompleted");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        System.out.println("LoginResponse--- onError");
+                    }
+
+                    @Override
+                    public void onNext(LoginResponse loginResponse) {
+                        Toast.makeText(MainActivity.this, "雅典娜登录成功", Toast.LENGTH_SHORT).show();
+                        Logger.d("雅典娜登录返回数据:");
+                        Logger.d("javabean转成jsonv1" + "↓↓↓");
+                        Logger.json(new Gson().toJson(loginResponse));
+                        Logger.d("javabean tostring" + "↓↓↓");
+                        Logger.d(loginResponse.toString());
+                    }
+                });
     }
+
 
     // 获取github用户信息
     private void initData() {

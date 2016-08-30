@@ -42,17 +42,29 @@ public interface MyInterface {
     /**
      * 查询 freebies 赠送 group
      *
-     * @param options
-     * @return
+     * @param options <br>
+     * @return <br>
      */
     @GET("offer/v1/RelaOfferGroup")
     Call<List<DepGroup>> depGroup(@QueryMap Map<String, String> options);
 
     /**
      * Rxjava + retrofit2 登录
-     * @param
-     * @return
+     *
+     * @param loginData <br>
+     * @return <br>
      */
     @POST("auth/v1/login/subs")
     Observable<LoginResponse> login(@Body LoginData loginData);
+
+    /**
+     * 雅典娜登录
+     * 详细的拦截器设置见 MainRetrofit
+     *
+     * @param loginParams 请求体,可以是bean也可以是map等
+     * @return response bean
+     */
+    @POST("auth/v1/login/subs")
+    Observable<LoginResponse> athenaLogin(@Body Map<String, String> loginParams);
+
 }
