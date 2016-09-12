@@ -1,5 +1,6 @@
 package com.yjn.retrofitdemo.intf;
 
+import com.yjn.retrofitdemo.bean.AcctBalanceList;
 import com.yjn.retrofitdemo.bean.CdrBean;
 import com.yjn.retrofitdemo.bean.DepGroup;
 import com.yjn.retrofitdemo.bean.GitHubUserBean;
@@ -63,8 +64,16 @@ public interface MyInterface {
      *
      * @param loginParams 请求体,可以是bean也可以是map等
      * @return response bean
+     *  http://10.45.5.224:8081/API/services/auth/v1/login/subs
      */
     @POST("auth/v1/login/subs")
     Observable<LoginResponse> athenaLogin(@Body Map<String, String> loginParams);
 
+    /**
+     * 获取雅典娜 Account Balance List 账户余额List
+     * @param code <br>
+     * @return <br>
+     */
+    @GET("account/v1/balance/code/{code}")
+    Observable<AcctBalanceList> athenaGetAcctBalList(@Path("code") String code);
 }

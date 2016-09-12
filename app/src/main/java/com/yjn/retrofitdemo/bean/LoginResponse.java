@@ -10,65 +10,56 @@ package com.yjn.retrofitdemo.bean;
 public class LoginResponse {
 
     /**
-     * subsId : 533001
-     * userId : 16
+     * subsId : 106005
+     * userId : 13
      * custId : null
      * accountId : null
-     * accessToken : u75EReJdy0kQd7mDHA1EWw==
-     * securityKey : Il3Y73Y2RroVPl2tln3COA==
-     * expireDate : 2016-05-26 15:46:53
+     * accessToken : Br9jf7loc2vzZv69OHCpGQ==
+     * securityKey : Os3mJc7vp+VrT4JgqO7z8w==
+     * expireDate : 2016-09-12 15:26:20
+     * custCode : 11055
+     * acctNbr : 1029
      */
 
-    private int subsId;
-    private int userId;
-    private Object custId;
-    private Object accountId;
+    private String subsId;
+    private String userId;
+    private String custId;
+    private String accountId;
     private String accessToken;
     private String securityKey;
     private String expireDate;
+    private String custCode;
+    private String acctNbr;
 
-    @Override
-    public String toString() {
-        return "LoginResponse{" +
-                "subsId=" + subsId +
-                ", userId=" + userId +
-                ", custId=" + custId +
-                ", accountId=" + accountId +
-                ", accessToken='" + accessToken + '\'' +
-                ", securityKey='" + securityKey + '\'' +
-                ", expireDate='" + expireDate + '\'' +
-                '}';
-    }
-
-    public int getSubsId() {
+    public String getSubsId() {
         return subsId;
     }
 
-    public void setSubsId(int subsId) {
+    public void setSubsId(String subsId) {
         this.subsId = subsId;
     }
 
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
-    public Object getCustId() {
+    public String getCustId() {
         return custId;
     }
 
-    public void setCustId(Object custId) {
+    public void setCustId(String custId) {
         this.custId = custId;
     }
 
-    public Object getAccountId() {
+    public String getAccountId() {
         return accountId;
     }
 
-    public void setAccountId(Object accountId) {
+    public void setAccountId(String accountId) {
         this.accountId = accountId;
     }
 
@@ -94,5 +85,21 @@ public class LoginResponse {
 
     public void setExpireDate(String expireDate) {
         this.expireDate = expireDate;
+    }
+
+    public String getCustCode() {
+        return custCode;
+    }
+
+    public void setCustCode(String custCode) {
+        this.custCode = custCode;
+    }
+
+    public String getAcctNbr() {
+        return acctNbr;
+    }
+
+    public void setAcctNbr(String acctNbr) {
+        this.acctNbr = acctNbr;
     }
 }

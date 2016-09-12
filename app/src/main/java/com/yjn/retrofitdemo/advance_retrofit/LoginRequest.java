@@ -12,4 +12,11 @@ public class LoginRequest {
     public String password;
     public String macAddress;
     public String ip;
+
+    public LoginRequest(String name, String password, String macAddress, String ip) {
+        this.name = name;
+        this.password = password;
+        this.macAddress = macAddress;
+        this.ip = ip;
+    }
 }

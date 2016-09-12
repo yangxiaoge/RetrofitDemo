@@ -3,6 +3,10 @@ package com.yjn.retrofitdemo.advance_retrofit;
 import android.app.Application;
 import android.widget.Toast;
 
+/**
+ * 参考
+ * https://github.com/XunMengWinter/PowerfulRetrofit
+ */
 public class App extends Application {
 
     private static App sApp;

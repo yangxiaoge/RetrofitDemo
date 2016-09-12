@@ -11,6 +11,8 @@ import com.google.gson.Gson;
 import com.orhanobut.logger.Logger;
 import com.yjn.retrofitdemo.R;
 import com.yjn.retrofitdemo.advance_retrofit.AdvanceRFActivity;
+import com.yjn.retrofitdemo.advance_retrofit.PreferencesHelper;
+import com.yjn.retrofitdemo.bean.AcctBalanceList;
 import com.yjn.retrofitdemo.bean.CdrBean;
 import com.yjn.retrofitdemo.bean.DepGroup;
 import com.yjn.retrofitdemo.bean.GitHubUserBean;
@@ -51,6 +53,8 @@ public class MainActivity extends BaseActivity {
     Button button4;
     @Bind(R.id.button5)
     Button changeLanguage;
+
+    private String custCode = ""; //雅典娜登录成功后返回的 custCode
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,22 +108,24 @@ public class MainActivity extends BaseActivity {
     }
 
     private void athenaLogin() {
-        MyInterface athenaService = MainFactory.getAthenaInterface();
+        final MyInterface athenaService = MainFactory.getAthenaInterface();
         Map<String, String> params = new HashMap<>();
         params.put("prefix", "95");
-        params.put("sdn", "2016042007");
-        params.put("pwd", "QFfpQMMfO6o=");
+        params.put("sdn", "3333001011");
+        params.put("pwd", "1UUYBGXJB54=");
         params.put("meid", "864895021268485");
-        params.put("os", "Android");
-        params.put("os_version", "4.2.2");
-        params.put("app_version", "1101");
-        Observable<LoginResponse> athena = athenaService.athenaLogin(params);
-        athena.subscribeOn(Schedulers.io())
+        params.put("os", "iPhone7s Plus");
+        params.put("os_version", "7.0");
+        params.put("app_version", "1024");
+        // login
+        Observable<LoginResponse> athenaLogin = athenaService.athenaLogin(params);
+        athenaLogin.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<LoginResponse>() {
                     @Override
                     public void onCompleted() {
                         System.out.println("LoginResponse--- onCompleted");
+                        qryAcctBalList(athenaService, custCode);
                     }
 
                     @Override
@@ -130,11 +136,37 @@ public class MainActivity extends BaseActivity {
                     @Override
                     public void onNext(LoginResponse loginResponse) {
                         Toast.makeText(MainActivity.this, "雅典娜登录成功", Toast.LENGTH_SHORT).show();
-                        Logger.d("雅典娜登录返回数据:");
-                        Logger.d("javabean转成jsonv1" + "↓↓↓");
+                        Logger.d("雅典娜登录返回数据↓↓↓");
+                        Logger.d("javabean转成json字符串" + "↓↓↓");
                         Logger.json(new Gson().toJson(loginResponse));
                         Logger.d("javabean tostring" + "↓↓↓");
                         Logger.d(loginResponse.toString());
+                        new PreferencesHelper(MainActivity.this).setToken(loginResponse.getAccessToken());
+                        custCode = loginResponse.getAcctNbr();
+                    }
+                });
+
+    }
+
+    private void qryAcctBalList(MyInterface athenaService, String code) {
+        //query athenaGetAcctBalList
+        Observable<AcctBalanceList> acctBalanceListObservable = athenaService.athenaGetAcctBalList(code);
+        acctBalanceListObservable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<AcctBalanceList>() {
+                    @Override
+                    public void onCompleted() {
+                        System.out.println("qry AcctBalanceList--- onCompleted");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        System.out.println("qry AcctBalanceList--- onError");
+                    }
+
+                    @Override
+                    public void onNext(AcctBalanceList acctBalanceList) {
+                        Logger.d(new Gson().toJson(acctBalanceList));
                     }
                 });
     }

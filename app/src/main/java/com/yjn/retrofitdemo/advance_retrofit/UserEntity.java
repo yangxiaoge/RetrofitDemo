@@ -7,6 +7,17 @@ public class UserEntity {
     private String gravatar_id;
     private String url;
 
+    @Override
+    public String toString() {
+        return "UserEntity{" +
+                "login='" + login + '\'' +
+                ", id=" + id +
+                ", avatar_url='" + avatar_url + '\'' +
+                ", gravatar_id='" + gravatar_id + '\'' +
+                ", url='" + url + '\'' +
+                '}';
+    }
+
 //    private String pwd;
 //    private String sdn;
 //    private String app_version;

@@ -1,8 +1,9 @@
 package com.yjn.retrofitdemo.core;
 
 import com.orhanobut.logger.Logger;
-import com.yjn.retrofitdemo.BuildConfig;
+import com.yjn.retrofitdemo.advance_retrofit.App;
 import com.yjn.retrofitdemo.advance_retrofit.BASE64.BASE64Encoder;
+import com.yjn.retrofitdemo.advance_retrofit.PreferencesHelper;
 import com.yjn.retrofitdemo.constants.BaseUrl;
 import com.yjn.retrofitdemo.intf.MyInterface;
 
@@ -33,54 +34,27 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Description:
  */
 public class MainRetrofit {
+    public static Boolean DEBUG = true; //控制日志是否输出
     final MyInterface mService;
     final MyInterface githubService;
     final MyInterface athenaService;
+    static final PreferencesHelper preferencesHelper = App.get().getPreferencesHelper();
 
     public MainRetrofit() {
+
         Logger.init("BaseApi");
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         // 日志, 如果是 debug模式, 就是打开启日志(自己要配置 全局 debug, 这里是默认的true)
-        interceptor.setLevel(BuildConfig.DEBUG ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE);
+        interceptor.setLevel(DEBUG ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE);
         //OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
-        OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder().addInterceptor(new Interceptor() {
-            @Override
-            public Response intercept(Chain chain) throws IOException {
+        OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder()
+                //增加日志
+                .addNetworkInterceptor(new HttpLoggingInterceptor().setLevel(DEBUG ?
+                        HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE))
+                .addInterceptor(newInterceptor);
+        //.connectTimeout(AppConfig.CONNECT_TIME_OUT, TimeUnit.SECONDS)//超时
 
-                Request original = chain.request();
-                Request.Builder builder = original.newBuilder()
-                        .method(original.method(), original.body())
-                        //添加请求头部
-                        .header("timestamp", String.valueOf(new Date().getTime()))
-                        .header("accesstoken", " ")
-                        .header("Content-Type", "application/json")
-                        .header("Accept", "application/json")
-                        .header("Accept-Charset", "utf-8")
-                        .header("Content-Language", "en")
-                        .header("User-Agent", "DataMall Client")
-                        .header("Device", "android");
-
-                try {
-                    String generateHmacSHA256Signature = generateHmacSHA256Signature(" ", String.valueOf(new Date().getTime()));
-                    builder.header("sign", generateHmacSHA256Signature);
-                } catch (GeneralSecurityException e) {
-                    e.printStackTrace();
-                }
-
-                Request finalRequest = builder.build();
-                HttpUrl url = finalRequest.url().newBuilder()
-                        // 在原链接上添加后缀，相当于在url上添加了 &platform=android&v=1.0
-                        .addQueryParameter("platform", "android")
-                        .addQueryParameter("v", "1.0")
-                        .build();
-                Logger.i(url.toString());
-                finalRequest = finalRequest.newBuilder().url(url).build();
-
-                return chain.proceed(builder.build());
-            }
-        });
         OkHttpClient client = clientBuilder.build();
-
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BaseUrl.MI_BSER_URL)
                 .client(client)
@@ -106,7 +80,54 @@ public class MainRetrofit {
         athenaService = athenaRf.create(MyInterface.class);
     }
 
-    public String generateHmacSHA256Signature(String data, String key) throws GeneralSecurityException {
+    /**
+     * 自定义拦截器
+     */
+    static Interceptor newInterceptor = new Interceptor() {
+        @Override
+        public Response intercept(Chain chain) throws IOException {
+
+            Request original = chain.request();
+            Request.Builder builder = original.newBuilder()
+                    .method(original.method(), original.body())
+                    //添加请求头部
+                    .header("timestamp", String.valueOf(new Date().getTime()))
+                    .header("accesstoken", preferencesHelper.getToken()) // 获取登录后返回的token
+                    .header("Content-Type", "application/json")
+                    .header("Accept", "application/json")
+                    .header("Accept-Charset", "utf-8")
+                    .header("Content-Language", "en")
+                    .header("User-Agent", "DataMall Client")
+                    .header("Device", "android");
+            try {
+                String generateHmacSHA256Signature = generateHmacSHA256Signature(" ", String.valueOf(new Date().getTime()));
+                builder.header("sign", generateHmacSHA256Signature);
+            } catch (GeneralSecurityException e) {
+                e.printStackTrace();
+            }
+
+            Request finalRequest = builder.build();
+            HttpUrl url = finalRequest.url().newBuilder()
+                    // 在原链接上添加后缀，相当于在url上添加了 &platform=android&v=1.0
+                    .addQueryParameter("platform", "android")
+                    .addQueryParameter("v", "1.0")
+                    .build();
+            Logger.i(url.toString());
+            finalRequest = finalRequest.newBuilder().url(url).build();
+
+            return chain.proceed(builder.build());
+        }
+    };
+
+    /**
+     * BASE64
+     *
+     * @param data <br>
+     * @param key  <br>
+     * @return <br>
+     * @throws GeneralSecurityException
+     */
+    public static String generateHmacSHA256Signature(String data, String key) throws GeneralSecurityException {
         byte[] hmacData = null;
 
         try {
@@ -121,15 +142,12 @@ public class MainRetrofit {
     }
 
     /**
-     * @return MyInterface 对象
+     * get MyInterface 对象
      */
     public MyInterface getService() {
         return mService;
     }
 
-    /**
-     * @return MyInterface 对象
-     */
     public MyInterface getGithubService() {
         return githubService;
     }

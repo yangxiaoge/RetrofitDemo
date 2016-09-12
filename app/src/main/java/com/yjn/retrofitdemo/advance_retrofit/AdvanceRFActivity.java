@@ -10,6 +10,9 @@ import android.widget.TextView;
 import com.orhanobut.logger.Logger;
 import com.yjn.retrofitdemo.R;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import okhttp3.Headers;
 import retrofit2.Response;
 import rx.Observer;
@@ -56,7 +59,7 @@ public class AdvanceRFActivity extends AppCompatActivity {
                     @Override
                     public void onNext(UserEntity userEntity) {
                         // 成功后
-                        Logger.i("11" + userEntity.toString());
+                        Logger.i(userEntity.toString());
                     }
                 }
         );
@@ -70,11 +73,16 @@ public class AdvanceRFActivity extends AppCompatActivity {
 
                     @Override
                     public void onSuccess(UserEntity model) {
-                        Logger.i("22" + model.toString());
+                        Logger.i(model.toString());
                     }
                 });
 
-        new UserApi().login(null)
+        Map<String,String> map = new HashMap<>();
+        map.put("name","364804051@qq.com");
+        map.put("password","yjn991926");
+        map.put("macAddress","");
+        map.put("ip","");
+        new UserApi().login(new LoginRequest("364804051@qq.com","yjn991926","",""))
                 .subscribe(new HttpObserver<Response<UserEntity>>() {
                     @Override
                     public void onComplete() {
