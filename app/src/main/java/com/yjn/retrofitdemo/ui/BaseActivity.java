@@ -17,12 +17,14 @@ import java.util.Locale;
  * Description:
  */
 public class BaseActivity extends AppCompatActivity {
+    private Locale locale;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //switchLanguage(Locale.SIMPLIFIED_CHINESE); //这里最好在本地配置文件取
     }
     public void switchLanguage(Locale locale) {
+        this.locale = locale;
         //应用内配置语言
         Resources resources = getResources();//获得res资源对象
         Configuration config = resources.getConfiguration();//获得设置对象
@@ -30,5 +32,19 @@ public class BaseActivity extends AppCompatActivity {
         config.locale = locale; //简体中文
         resources.updateConfiguration(config, dm);
 
+    }
+
+    /**
+     * 设置字体大小不随手机设置而改变
+     * @return Resources
+     */
+    @Override
+    public Resources getResources() {
+        Resources res = super.getResources();
+        Configuration config=new Configuration();
+        //config.setToDefaults(); //由于本app有多语言切换,所以不要用 default 的 locale
+        config.setLocale(locale);
+        res.updateConfiguration(config,res.getDisplayMetrics() );
+        return res;
     }
 }
