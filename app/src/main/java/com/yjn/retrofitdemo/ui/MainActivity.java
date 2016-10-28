@@ -70,7 +70,8 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.button, R.id.button2, R.id.button3, R.id.button4, R.id.button5, R.id.button6, R.id.advance_retrofit, R.id.athena})
+    @OnClick({R.id.button, R.id.button2, R.id.button3, R.id.button4, R.id.button5, R.id.button6,
+            R.id.advance_retrofit, R.id.athena,R.id.button7})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.button:
@@ -102,6 +103,9 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.athena:
                 athenaLogin();
+                break;
+            case R.id.button7:
+                startActivity(new Intent(this, ScrollTitleList.class));
                 break;
 
         }

@@ -17,6 +17,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".advance_retrofit.AdvanceRFActivity"/>
+        <activity android:name=".ui.ScrollTitleList"/>
     </application>
 
 </manifest>
