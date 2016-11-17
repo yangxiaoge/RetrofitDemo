@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 
+import java.text.DecimalFormat;
 import java.util.Locale;
 
 /**

@@ -21,6 +21,8 @@ import com.yjn.retrofitdemo.bean.LoginResponse;
 import com.yjn.retrofitdemo.core.MainFactory;
 import com.yjn.retrofitdemo.intf.MyInterface;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -68,10 +70,24 @@ public class MainActivity extends BaseActivity {
         config.locale = Locale.KOREA; //简体中文
         resources.updateConfiguration(config, dm);*/
 
+        // java千分位格式化
+        System.out.println("java千分位格式化数据: "+DecimalFormat.getNumberInstance().format(Double.parseDouble("100003.12")) + "");
+        while (true) {
+            for (int i = 0; i < 10; i++) {
+                if (i == 6) {
+                    System.out.println("while终断");
+                    Toast.makeText(this, "while终断", Toast.LENGTH_SHORT).show();
+                    return; // return跳出循环体!, break 跳出当前循环体 ,continue 跳过当前循环体continue后面的代码，继续执行下一个循环
+                }
+                System.out.println("while1111");
+                //Toast.makeText(this, "while1111", Toast.LENGTH_SHORT).show();
+            }
+        }
+
     }
 
     @OnClick({R.id.button, R.id.button2, R.id.button3, R.id.button4, R.id.button5, R.id.button6,
-            R.id.advance_retrofit, R.id.athena,R.id.button7})
+            R.id.advance_retrofit, R.id.athena, R.id.button7})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.button:
@@ -102,6 +118,7 @@ public class MainActivity extends BaseActivity {
                 startActivity(new Intent(this, AdvanceRFActivity.class));
                 break;
             case R.id.athena:
+                // 雅典娜登录
                 athenaLogin();
                 break;
             case R.id.button7:
@@ -115,7 +132,7 @@ public class MainActivity extends BaseActivity {
         final MyInterface athenaService = MainFactory.getAthenaInterface();
         Map<String, String> params = new HashMap<>();
         params.put("prefix", "95");
-        params.put("sdn", "3333001011");
+        params.put("sdn", "9201005832");
         params.put("pwd", "1UUYBGXJB54=");
         params.put("meid", "864895021268485");
         params.put("os", "iPhone7s Plus");
@@ -129,6 +146,8 @@ public class MainActivity extends BaseActivity {
                     @Override
                     public void onCompleted() {
                         System.out.println("LoginResponse--- onCompleted");
+
+                        // 查询account list
                         qryAcctBalList(athenaService, custCode);
                     }
 
