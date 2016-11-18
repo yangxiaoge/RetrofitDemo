@@ -3,6 +3,8 @@ package com.yjn.retrofitdemo.advance_retrofit;
 import android.app.Application;
 import android.widget.Toast;
 
+import org.litepal.LitePal;
+
 /**
  * 参考
  * https://github.com/XunMengWinter/PowerfulRetrofit
@@ -33,6 +35,8 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         sApp = this;
+        //初始化LitePal
+        LitePal.initialize(this);
     }
 
     public void showToast(String msg) {

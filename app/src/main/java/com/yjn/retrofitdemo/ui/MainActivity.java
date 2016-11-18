@@ -20,6 +20,7 @@ import com.yjn.retrofitdemo.bean.LoginData;
 import com.yjn.retrofitdemo.bean.LoginResponse;
 import com.yjn.retrofitdemo.core.MainFactory;
 import com.yjn.retrofitdemo.intf.MyInterface;
+import com.yjn.retrofitdemo.litepal.LitePal_Activity;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -71,7 +72,7 @@ public class MainActivity extends BaseActivity {
         resources.updateConfiguration(config, dm);*/
 
         // java千分位格式化
-        System.out.println("java千分位格式化数据: "+DecimalFormat.getNumberInstance().format(Double.parseDouble("100003.12")) + "");
+        System.out.println("java千分位格式化数据: "+DecimalFormat.getNumberInstance().format(Double.parseDouble("1000000999999")) + "");
         while (true) {
             for (int i = 0; i < 10; i++) {
                 if (i == 6) {
@@ -87,7 +88,7 @@ public class MainActivity extends BaseActivity {
     }
 
     @OnClick({R.id.button, R.id.button2, R.id.button3, R.id.button4, R.id.button5, R.id.button6,
-            R.id.advance_retrofit, R.id.athena, R.id.button7})
+            R.id.advance_retrofit, R.id.athena, R.id.button7,R.id.litepal})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.button:
@@ -123,6 +124,9 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.button7:
                 startActivity(new Intent(this, ScrollTitleList.class));
+                break;
+            case R.id.litepal:
+                startActivity(new Intent(this, LitePal_Activity.class));
                 break;
 
         }

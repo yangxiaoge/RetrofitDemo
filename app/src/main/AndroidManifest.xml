@@ -18,6 +18,7 @@
         </activity>
         <activity android:name=".advance_retrofit.AdvanceRFActivity"/>
         <activity android:name=".ui.ScrollTitleList"/>
+        <activity android:name=".litepal.LitePal_Activity"/>
     </application>
 
 </manifest>
