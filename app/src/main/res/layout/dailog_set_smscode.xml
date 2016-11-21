@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/grey_frame_corner"
+        android:layout_marginLeft="@dimen/padding_13"
+        android:layout_marginRight="@dimen/padding_13"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_13"
+            android:text="请输入验证码,请输入验证码,请输入验证码,请输入验证码" />
+
+        <LinearLayout
+            android:id="@+id/check_code_area"
+            android:layout_width="match_parent"
+            android:layout_height="33dp"
+            android:layout_marginTop="@dimen/space_22"
+            android:background="@color/white">
+
+            <EditText
+                android:id="@+id/sms_code"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/grey_edittext_frame"
+                android:gravity="center_vertical"
+                android:hint="@string/SMS_Code"
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                android:maxLength="6"
+                android:maxLines="1"
+                android:paddingLeft="@dimen/padding_13"
+                android:textColorHint="@color/tab_txt_color"
+                android:textSize="@dimen/text_size_13" />
+
+            <TextView
+                android:id="@+id/button_get_code"
+                android:layout_width="42dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/get_sms_code_selector"
+                android:ems="4"
+                android:gravity="center"
+                android:text="@string/get"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_13" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/padding_13"
+            android:layout_marginTop="16dp">
+
+            <Button
+                android:id="@+id/btn_cancel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Cancel"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/btn_ok"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="OK" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -132,4 +132,24 @@
         android:layout_toStartOf="@+id/button"
         android:layout_toLeftOf="@+id/button" />
 
+    <Button
+        android:text="转账弹出验证码输入框"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/advance_retrofit"
+        android:layout_alignRight="@+id/button4"
+        android:layout_alignEnd="@+id/button4"
+        android:layout_marginBottom="15dp"
+        android:id="@+id/dialog_edit" />
+
+    <Button
+        android:text="自定义Dialog"
+        android:textAllCaps="false"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/button6"
+        android:layout_toRightOf="@+id/advance_retrofit"
+        android:layout_toEndOf="@+id/advance_retrofit"
+        android:id="@+id/customer_dialog" />
+
 </RelativeLayout>

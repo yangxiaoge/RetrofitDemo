@@ -3,4 +3,12 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="common_color_cecece">#cecece</color>
+    <color name="tab_txt_color">#999999</color>
+    <color name="get_sms_color_normal">#f9bd00</color>
+    <color name="get_sms_color_press">#FFC49913</color>
+    <color name="my_profile_divide_line_color">#e8e7e7</color>
+    <color name="md_gray_200">#EEEEEE</color>
 </resources>

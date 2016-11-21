@@ -19,6 +19,8 @@
         <activity android:name=".advance_retrofit.AdvanceRFActivity"/>
         <activity android:name=".ui.ScrollTitleList"/>
         <activity android:name=".litepal.LitePal_Activity"/>
+        <activity android:name=".dialog_edittext.PasswordDialogEditActivity"/>
+        <activity android:name=".dialog_customer_layout.CustomerDialogActivity"/>
     </application>
 
 </manifest>

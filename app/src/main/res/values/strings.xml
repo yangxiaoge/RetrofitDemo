@@ -9,4 +9,7 @@
     <string name="english">english</string>
     <string name="chinese">chinese</string>
     <string name="login_failed">login failed!</string>
+
+    <string name="SMS_Code">SMS Code</string>
+    <string name="get">Get</string>
 </resources>
