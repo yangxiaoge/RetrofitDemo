@@ -38,7 +38,7 @@
     <!--定义数据库 映射类-->
     <list>
         <mapping class ="com.yjn.retrofitdemo.litepal.models.Album"></mapping>
-        <mapping class ="com.yjn.retrofitdemo.litepal.models.Album.Song"></mapping>
+        <mapping class ="com.yjn.retrofitdemo.litepal.models.Song"></mapping>
     </list>
 
     <!--
