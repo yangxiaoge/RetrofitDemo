@@ -2,22 +2,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/transparent"
+    android:background="@null"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/grey_frame_corner"
-        android:layout_marginLeft="@dimen/padding_13"
-        android:layout_marginRight="@dimen/padding_13"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/padding_13"
+        android:paddingRight="@dimen/padding_13">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding_13"
-            android:text="请输入验证码,请输入验证码,请输入验证码,请输入验证码" />
+            android:text="This operation requires a text message confirmation, SMS vertification code has been sent to your mobile phone:" />
 
         <LinearLayout
             android:id="@+id/check_code_area"
