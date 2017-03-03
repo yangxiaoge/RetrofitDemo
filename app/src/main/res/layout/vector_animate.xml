@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/image1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="70dp"
+        android:layout_marginStart="70dp"
+        android:contentDescription="沿X轴平移"
+        android:src="@mipmap/ic_launcher" />
+
+    <ImageView
+        android:id="@+id/image2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/image1"
+        android:layout_alignStart="@+id/image1"
+        android:layout_below="@+id/image1"
+        android:layout_marginTop="27dp"
+        android:contentDescription="沿X,Y平移(具体看代码, 代码里有同时,还有顺序)"
+        android:src="@mipmap/ic_launcher" />
+
+    <ImageView
+        android:id="@+id/image3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/image2"
+        android:layout_alignStart="@+id/image2"
+        android:layout_below="@+id/image2"
+        android:layout_marginTop="20dp"
+        android:contentDescription="包含旋转"
+        android:src="@mipmap/ic_launcher" />
+
+    <ImageView
+        android:id="@+id/image4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/image3"
+        android:layout_alignStart="@+id/image3"
+        android:layout_below="@+id/image3"
+        android:layout_marginTop="30dp"
+        android:contentDescription="矢量图动画"
+        android:src="@drawable/arrow_anim" />
+
+    <Button
+        android:text="开启矢量图动画"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/image3"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="17dp"
+        android:id="@+id/button9" />
+</RelativeLayout>
