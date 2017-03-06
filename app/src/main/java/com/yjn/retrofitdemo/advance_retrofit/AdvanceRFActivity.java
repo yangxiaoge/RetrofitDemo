@@ -1,18 +1,25 @@
 package com.yjn.retrofitdemo.advance_retrofit;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.orhanobut.logger.Logger;
 import com.yjn.retrofitdemo.R;
+import com.yjn.retrofitdemo.vectorAnimate.VectorAnimateActivity;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import okhttp3.Headers;
 import retrofit2.Response;
 import rx.Observer;
@@ -28,12 +35,26 @@ public class AdvanceRFActivity extends AppCompatActivity {
     private Button getInfo;
     private TextView textInfo;
 
+    @Bind(R.id.rg_img_backgroud)
+    ImageView rg_img_backgroud;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.retrofit);
+        ButterKnife.bind(this);
+
         getInfo = (Button) findViewById(R.id.getInfo);
         textInfo = (TextView) findViewById(R.id.textView);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // 设置背景图动画
+                Animation animation = AnimationUtils.loadAnimation(AdvanceRFActivity.this,R.anim.translate_anim);
+                rg_img_backgroud.setAnimation(animation);
+            }
+        },200);
 
         getInfo.setOnClickListener(new View.OnClickListener() {
             @Override

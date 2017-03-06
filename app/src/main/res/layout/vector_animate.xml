@@ -1,9 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/de_frm_backgroud"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/rg_img_backgroud"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="-50dp"
+            android:layout_marginRight="-300dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/de_bg" />
+
+    </FrameLayout>
 
     <ImageView
         android:id="@+id/image1"
@@ -51,11 +66,11 @@
         android:src="@drawable/arrow_anim" />
 
     <Button
-        android:text="开启矢量图动画"
+        android:id="@+id/button9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/image3"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="17dp"
-        android:id="@+id/button9" />
+        android:text="开启矢量图动画" />
 </RelativeLayout>

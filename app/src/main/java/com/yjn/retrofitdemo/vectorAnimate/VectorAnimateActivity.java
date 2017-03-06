@@ -7,9 +7,12 @@ import android.animation.ObjectAnimator;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.orhanobut.logger.Logger;
@@ -36,12 +39,23 @@ public class VectorAnimateActivity extends AppCompatActivity {
     ImageView image3;
     @Bind(R.id.image4)
     ImageView image4;
+    @Bind(R.id.rg_img_backgroud)
+    ImageView rg_img_backgroud;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.vector_animate);
         ButterKnife.bind(this);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // 设置背景图动画
+                Animation animation = AnimationUtils.loadAnimation(VectorAnimateActivity.this,R.anim.translate_anim);
+                rg_img_backgroud.setAnimation(animation);
+            }
+        },200);
     }
 
     @OnClick({R.id.image1, R.id.image2, R.id.image3, R.id.button9})

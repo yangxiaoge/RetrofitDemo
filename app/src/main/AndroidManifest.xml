@@ -23,6 +23,7 @@
         <activity android:name=".dialog_customer_layout.CustomerDialogActivity"/>
         <activity android:name=".gank_io_retrofit.activity.GankRetrofitMainActivity"/>
         <activity android:name=".vectorAnimate.VectorAnimateActivity"/>
+        <activity android:name=".login_widget.LoginActivity"/>
     </application>
 
 </manifest>

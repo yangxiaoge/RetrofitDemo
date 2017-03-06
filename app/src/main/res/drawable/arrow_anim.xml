@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--需要5.0系统以上!!!, 否则闪退-->
 <animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:drawable="@drawable/arrow">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:drawable="@drawable/arrow"
+    tools:targetApi="lollipop">
     <target
         android:name="left"
         android:animation="@animator/anim_left" />

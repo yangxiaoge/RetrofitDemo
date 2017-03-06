@@ -24,6 +24,7 @@ import com.yjn.retrofitdemo.dialog_edittext.PasswordDialogEditActivity;
 import com.yjn.retrofitdemo.gank_io_retrofit.activity.GankRetrofitMainActivity;
 import com.yjn.retrofitdemo.intf.MyInterface;
 import com.yjn.retrofitdemo.litepal.LitePal_Activity;
+import com.yjn.retrofitdemo.login_widget.LoginActivity;
 import com.yjn.retrofitdemo.vectorAnimate.VectorAnimateActivity;
 
 import java.text.DecimalFormat;
@@ -92,7 +93,7 @@ public class MainActivity extends BaseActivity {
 
     @OnClick({R.id.button, R.id.button2, R.id.button3, R.id.button4, R.id.button5, R.id.button6,
             R.id.advance_retrofit, R.id.athena, R.id.button7, R.id.litepal, R.id.dialog_edit,
-            R.id.customer_dialog, R.id.nice_retrofit, R.id.vectorAnimate})
+            R.id.customer_dialog, R.id.nice_retrofit, R.id.vectorAnimate, R.id.login})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.button:
@@ -143,6 +144,9 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.vectorAnimate:
                 startActivity(new Intent(this, VectorAnimateActivity.class));
+                break;
+            case R.id.login:
+                startActivity(new Intent(this, LoginActivity.class));
                 break;
 
         }
